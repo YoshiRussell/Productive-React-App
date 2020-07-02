@@ -7,6 +7,11 @@ function TodoList() {
 
     console.log("render TodoList")
 
+    // fetch data from database
+    
+
+    // update data in database
+
     // declare states I want to keep track of
     const [modelTodoList, updateModel] = useState(tempTodoList)
     const [showForm, setShowForm] = useState(false)
