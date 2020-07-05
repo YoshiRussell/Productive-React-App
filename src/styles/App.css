@@ -67,12 +67,12 @@ input[type=checkbox]:focus {
 
 
 
-input[type=checkbox] + label {
+/* input[type=checkbox] + label {
     display: block;
     margin: 0.2em;
     cursor: pointer;
     padding: 0.2em;
-  }
+  } */
   
 .delete-div:hover {
     color: #404040 !important;
@@ -84,7 +84,7 @@ input[type=checkbox] + label {
     transition: all 0.3s ease 0s;
 }
 
-#add {
+/* #add {
     position: relative;
     text-align: center;
     padding: 20px;
@@ -128,4 +128,4 @@ input[type=checkbox] + label {
     transform: scale(1);
     background-color: #bfb;
     border-color: #bfb;
-  }
+  } */
