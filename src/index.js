@@ -12,7 +12,7 @@ ReactDOM.render(
             clientId="qH0fEHdMUZX0Iiypz3mO6GU7cTYfAz3N"
             redirectUri="http://localhost:3000/todolist"    // after successful login, redirect here
             audience="http://localhost:5000/"               // api to validate access tokens
-            scope="read:user_todos update:user_todos"       // permissions granted for private routes
+            scope="read:user_todos update:user_todos delete:user_todos"       // permissions granted for private routes
         >
             <App />
         </Auth0Provider>

@@ -54,7 +54,7 @@ function TodoForm(props) {
                         <span className="text">Low Priority</span>
                     </label>
                 </section>
-                <button onClick={e => props.handleSubmit(e, inputTodo, priority)}>ADD</button>
+                <button onClick={e => {e.preventDefault(); props.handleSubmit(inputTodo, priority)}}>ADD</button>
                 <button onClick={e => {e.preventDefault(); props.setShow(false)}}>CANCEL</button>
             </form > 
             : null

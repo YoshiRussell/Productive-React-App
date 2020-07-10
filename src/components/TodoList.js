@@ -7,10 +7,8 @@ import { useAuth0 } from "@auth0/auth0-react"
 function TodoList() {
 
     // get user details
-    const { user, isAuthenticated, getAccessTokenSilently } = useAuth0()
+    const { user, isAuthenticated, getAccessTokenSilently, logout, isLoading } = useAuth0()
     
-    //console.log(user.email)
-
     // states to keep track of
     const [modelTodoList, updateModel] = useState([])
     const [showForm, setShowForm] = useState(false)
@@ -67,31 +65,51 @@ function TodoList() {
 
     // delete todo
     function handleDelete(deleteTodoId) {
-
-        // delete from database
-        axios.delete('http://localhost:5000/todo/delete/' + deleteTodoId, {loginUserId: user.user_id})
-            .then(response => console.log(response.data))
-
-        const updateModelTodoList = modelTodoList.filter(todo => todo._id !== deleteTodoId)
-        updateModel(updateModelTodoList)
+        (async() => {
+            try {
+                const accessToken = await getAccessTokenSilently({
+                    audience: 'http://localhost:5000/',
+                    scope: 'read:user_todos update:user_todos delete:user_todos',
+                });
+                const headerConfig = {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
+                const updateModelTodoList = modelTodoList.filter(todo => todo._id !== deleteTodoId);
+                updateModel(updateModelTodoList);
+                axios.post(`http://localhost:5000/api/todo/delete/${deleteTodoId}`, { userId: user.sub }, headerConfig)    
+            } catch(e) {
+                console.log("there was an err deleting data: ", e);
+            }
+        })();
     }
     
     // add new todo 
-    function submitNewTodo(event, newText, newPriority) {
-        event.preventDefault()
-        const newTodoObj = {
-            loginUserId: user.user_id,
-            text: newText,
-            completed: false,
-            priority: newPriority
-        }
-
-        // update database
-        axios.post('http://localhost:5000/todo/add', newTodoObj)
-                .then(res => console.log(res.data))
-                .catch(err => console.log(err))
-
-        updateModel(prevModel => [...prevModel, newTodoObj])
+    function submitNewTodo(newText, newPriority) {
+        (async() => {
+            try {
+                const accessToken = await getAccessTokenSilently({
+                    audience: 'http://localhost:5000/',
+                    scope: 'read:user_todos update:user_todos',
+                });
+                const headerConfig = {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
+                const newTodoObj = {
+                    userId: user.sub,
+                    text: newText,
+                    completed: false,
+                    priority: newPriority
+                }
+                updateModel(prevModel => [...prevModel, newTodoObj]);
+                axios.post('http://localhost:5000/api/todo/add', newTodoObj, headerConfig);
+            } catch(e) {
+                console.log("there was an err posting data: ", e);
+            }
+        })();
     }
 
     // hide form after creating/canceling new todo item
@@ -121,7 +139,10 @@ function TodoList() {
                     {showForm ? null : <button className="delete-div" id="add" onClick={() => setShowForm(true)}>ADD NEW TODO</button>}
                 </div> :
                 <div>
-                    Your are not authenticated
+                    {isLoading ? 
+                        <h1>Loading...</h1> :
+                        logout({ returnTo: window.location.origin })
+                    }
                 </div>
             }   
         </div>
