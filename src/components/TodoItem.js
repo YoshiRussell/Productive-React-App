@@ -3,24 +3,24 @@ import React, { useState } from 'react';
 // Template for each todo list item
 function TodoItem(props) {
 
-    console.log("render todoitem " + props.item.text)
-    console.log("todoitem id: " + props.item._id)
+    // states to keep track of
     const [checked, setChecked] = useState(props.item.completed)
 
+    // todo-item background color 
     function inlineStyle() {
         return {
             backgroundColor: `${props.background}`        
         }
     }
 
+    // render todo-item
     return (
         <div className="todo-item" style={inlineStyle()}>
-            <input 
+            <input
                 id={props.item._id}
                 type="checkbox" 
                 checked={checked}
                 onChange={() => {
-                    console.log("change triggered")
                     setChecked(prevCheck => !prevCheck)
                     props.handleClick(props.item._id)
                 }}

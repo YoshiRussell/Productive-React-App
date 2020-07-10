@@ -1,16 +1,21 @@
+/**
+ * Restful api for user's todo-list data
+ */
+const authMiddleware = require('../middleware/auth');
 const router = require('express').Router();
-let Todo = require('../models/todo.model');
+const { Todo, User } = require('../models/models');
 
+router.route('/').get(authMiddleware, (req, res) => {
+    const userId = req.user.id;
 
-// get todo with route http://localhost:5000/todos/
-router.route('/').get((req, res) => {
-    Todo.find()
-        .then(todos => res.json(todos))
-        .catch(err => res.status(400).json('Error: ' + err));
+    User.findOne({"_id": userId})
+        .then(user => res.json(user.todos))
+        .catch(err => res.status(400).json('Failed to get user\'s todos with error: ' + err));
 });
 
-// add todo with route http://localhost:5000/todo/add
-router.route('/add').post((req, res) => {
+// add user todo 
+router.route('/add').post(authMiddleware, (req, res) => {
+    const userId = req.user.id;
     const text = req.body.text;
     const completed = Boolean(req.body.completed);
     const priority = req.body.priority;
@@ -21,23 +26,25 @@ router.route('/add').post((req, res) => {
         priority,
     });
 
-    newTodo.save()
-        .then(() => res.json('Todo added'))
-        .catch(err => res.status(400).json('Error: ' + err));
+    User.findOneAndUpdate({"_id": userId}, {
+        $push: {todos: newTodo}
+    }, (error, success) => {
+        if(error) {console.log(error);}
+        else {console.log(success);}
+    });
 });
 
-// // get specific todo via id with route http://localhost:5000/todo/{id}
-// router.route('/:id').get((req, res) => {
-//     Todo.findById(req.params.id)
-//         .then(todo => res.json(todo))
-//         .catch(err => res.status(400).json('Error: ' + err));
-// });
-
 // // delete specific todo via id with route https://localhost5000/todo/{id}
-router.route('/:id').delete((req, res) => {
-    Todo.findByIdAndDelete(req.params.id)
-        .then(() => res.json('Todo deleted'))
-        .catch(err => res.status(400).json('Error: ' + err));
+router.route('/delete/:id').delete(authMiddleware, (req, res) => {
+    const todoItemId = req.params.id;
+    const userId = req.user.id;
+
+    User.findOneAndUpdate({"_id": userId}, {
+        $pullAll: {todos: {"_id": todoItemId}}
+    }, (error, success) => {
+        if(error) {console.log(error);}
+        else {console.log(success)}
+    });
 });
 
 // // update specific todo via id with route https://localhost5000/todo/update/{id}

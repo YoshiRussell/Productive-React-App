@@ -16,33 +16,44 @@ function TodoForm(props) {
                     placeholder="Add todo here"
                     onChange={e => setInputTodo(e.target.value)}
                 />
-                <input 
-                    type="radio"
-                    id="high"
-                    name="priority"
-                    value="high"
-                    checked={priority === "high"}
-                    onChange={e => setPriority("high")}
-                />
-                <label htmlFor="high">High Priority</label><br/>
-                <input 
-                    type="radio"
-                    id="medium"
-                    name="priority"
-                    value="medium"
-                    checked={priority === "medium"}
-                    onChange={e => setPriority("medium")}
-                />
-                <label htmlFor="medium">Medium Priority</label><br/>
-                <input
-                    type="radio"
-                    id="low"
-                    name="priority"
-                    value="low"
-                    checked={priority === "low"}
-                    onChange={e => setPriority("low")}
-                />
-                <label htmlFor="low">Low Priority</label><br/>
+                <section className="light">
+                    <label>
+                        <input 
+                            type="radio"
+                            id="high"
+                            name="priority"
+                            value="high"
+                            checked={priority === "high"}
+                            onChange={e => setPriority("high")}
+                        />
+                        <span className="design"></span>
+                        <span className="text">High Priority</span>
+                    </label>
+                    <label>
+                        <input 
+                            type="radio"
+                            id="medium"
+                            name="priority"
+                            value="medium"
+                            checked={priority === "medium"}
+                            onChange={e => setPriority("medium")}
+                        />
+                        <span className="design"></span>
+                        <span className="text">Medium Priority</span>
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            id="low"
+                            name="priority"
+                            value="low"
+                            checked={priority === "low"}
+                            onChange={e => setPriority("low")}
+                        />
+                        <span className="design"></span>
+                        <span className="text">Low Priority</span>
+                    </label>
+                </section>
                 <button onClick={e => props.handleSubmit(e, inputTodo, priority)}>ADD</button>
                 <button onClick={e => {e.preventDefault(); props.setShow(false)}}>CANCEL</button>
             </form > 

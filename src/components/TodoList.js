@@ -1,28 +1,44 @@
 import React, { useState, useEffect } from "react"
 import axios from 'axios';
-import tempTodoList from "../tempTodoList"
 import TodoItem from "./TodoItem"
 import TodoForm from "./TodoForm"
+import { useAuth0 } from "@auth0/auth0-react"
 
 function TodoList() {
 
-    console.log("render TodoList")
+    // get user details
+    const { user, isAuthenticated, getAccessTokenSilently } = useAuth0()
+    
+    //console.log(user.email)
+
+    // states to keep track of
+    const [modelTodoList, updateModel] = useState([])
+    const [showForm, setShowForm] = useState(false)
 
     // fetch data from database
     useEffect(() => {
-        axios.get('http://localhost:5000/todo')
-            .then(response => {
-                console.log(response.data)
-                updateModel(response.data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }, []) 
-
-    // declare states I want to keep track of
-    const [modelTodoList, updateModel] = useState([])
-    const [showForm, setShowForm] = useState(false)
+        (async() => {
+            try {
+                const accessToken = await getAccessTokenSilently({
+                    audience: 'http://localhost:5000/',
+                    scope: 'read:user_todos update:user_todos',
+                });
+                const headerConfig = {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
+                const reqBody = {
+                    email: user.email,
+                    userId: user.sub
+                }
+                const response = await axios.post('http://localhost:5000/api/users/getUserId&Todos', reqBody, headerConfig)
+                updateModel(response.data.todos);
+            } catch(e) {
+                console.log("there was an error fetching data: ", e);
+            }
+        })();
+    }, [getAccessTokenSilently, user]);
 
     // handle color of todo item based on priority
     function handleColor(thisPriority) {
@@ -53,7 +69,7 @@ function TodoList() {
     function handleDelete(deleteTodoId) {
 
         // delete from database
-        axios.delete('http://localhost:5000/todo/' + deleteTodoId)
+        axios.delete('http://localhost:5000/todo/delete/' + deleteTodoId, {loginUserId: user.user_id})
             .then(response => console.log(response.data))
 
         const updateModelTodoList = modelTodoList.filter(todo => todo._id !== deleteTodoId)
@@ -62,9 +78,9 @@ function TodoList() {
     
     // add new todo 
     function submitNewTodo(event, newText, newPriority) {
-        console.log("submitting")
         event.preventDefault()
         const newTodoObj = {
+            loginUserId: user.user_id,
             text: newText,
             completed: false,
             priority: newPriority
@@ -78,11 +94,12 @@ function TodoList() {
         updateModel(prevModel => [...prevModel, newTodoObj])
     }
 
+    // hide form after creating/canceling new todo item
     useEffect(() => {
         setShowForm(false)
     },[modelTodoList])
 
-    // render todo list 
+    // create list of todoitem components
     const updatedView = modelTodoList.map(todo => {
         return <TodoItem 
             key={todo._id} 
@@ -94,12 +111,21 @@ function TodoList() {
         /> 
     })
 
+    // render todo list
     return (
-        <div className="todo-list">
-            {updatedView.length > 0 ? updatedView : console.log("loading...")}
-            <TodoForm handleSubmit={submitNewTodo} show={showForm} setShow={setShowForm} />
-            {showForm ? null : <button className="delete-div" id="add" onClick={() => setShowForm(true)}>ADD NEW TODO</button>}
+        <div>
+            {isAuthenticated ?
+                <div className="todo-list">
+                    {updatedView.length > 0 ? updatedView : console.log("loading...")}
+                    <TodoForm handleSubmit={submitNewTodo} show={showForm} setShow={setShowForm} />
+                    {showForm ? null : <button className="delete-div" id="add" onClick={() => setShowForm(true)}>ADD NEW TODO</button>}
+                </div> :
+                <div>
+                    Your are not authenticated
+                </div>
+            }   
         </div>
+        
     )
 }
 

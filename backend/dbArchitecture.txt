@@ -1,0 +1,17 @@
+User:
+	ObjectID: xxxx
+	email: xxxx
+	loginUserID: {user.sub (given by auth0)}
+	todos: [{
+		 ObjectID: xxxx,
+		 text: "dishes",
+		 priority: "medium",
+		 completed: false
+		},
+		{
+		 ObjectID: xxxx,
+		 text: "hw",
+		 priority: "high",
+		 completed: true
+		}]
+
