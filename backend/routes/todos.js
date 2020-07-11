@@ -4,7 +4,9 @@
 const router = require('express').Router();
 const { Todo, User } = require('../models/models');
 
-// add user todo 
+// @ desc: add user todo 
+// @ url: http://localhost:3000/api/todo/add
+// @ require: auth0 accessToken
 router.route('/add').post((req, res) => {
     const { userId, text, completed, priority } = req.body;
   
@@ -18,11 +20,17 @@ router.route('/add').post((req, res) => {
         $push: {todos: newTodo}
     }, (error, success) => {
         if(error) {console.log(error);}
-        else {console.log(success);}
+        else {
+            console.log("success: " + success);
+            res.json(newTodo);
+        }
     });
+    
 });
 
-// // delete specific todo via id with route https://localhost5000/todo/{id}
+// @ desc: delete user todo via id
+// @ url: http://localhost:3000/api/todo/delete/{id}
+// @ require: auth0 accessToken
 router.route('/delete/:id').post((req, res) => {
     const todoItemId = req.params.id;
     const { userId } = req.body;
