@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import Login from './Login';
+//import Login from './Login';
 import TodoList from './TodoList';
-import Navbar from './Navbar';
+import Home from './Home';
+import Profile from './Profile';
 import '../styles/App.css';
 
 
@@ -12,10 +13,10 @@ function App() {
     return (
         <div className="container">
             <Router>
-                <Navbar />
                 <Switch>
-                    <Route path="/" exact component={Login} />
-                    <Route path="/todolist" exact component={TodoList} />
+                    <Route path="/" exact component={Home} />
+                    <Route path="/profile" exact component={Profile} />
+                    {/*<Route path="/todolist" exact component={TodoList} /> */}
                 </Switch>
             </Router>
         </div>

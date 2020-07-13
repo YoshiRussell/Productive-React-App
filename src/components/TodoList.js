@@ -4,7 +4,7 @@ import TodoItem from "./TodoItem"
 import TodoForm from "./TodoForm"
 import { useAuth0 } from "@auth0/auth0-react"
 
-function TodoList() {
+function TodoList(props) {
 
     // get user details
     const { user, isAuthenticated, getAccessTokenSilently, logout, isLoading } = useAuth0()
@@ -12,32 +12,43 @@ function TodoList() {
     // states to keep track of
     const [modelTodoList, updateModel] = useState([]);
     const [showForm, setShowForm] = useState(false);
-    const [accessToken, setAccessToken] = useState(null);
+    const accessToken = props.token;
 
-    
     // get access token
+    // useEffect(() => {
+    //     getAccessTokenSilently({
+    //         audience: 'http://localhost:5000/',
+    //         scope: 'read:user_todos update:user_todos',
+    //     })
+    //     .then(accessToken => {
+    //         console.log("successfully got access token")
+    //         setAccessToken(accessToken);
+    //         const headerConfig ={ headers: { Authorization: `Bearer ${accessToken}` } };
+    //         const reqBody = { email: user.email, userId: user.sub };
+    //         axios.post('http://localhost:5000/api/users/getUserId&Todos', reqBody, headerConfig)
+    //             .then(response => {
+    //                 updateModel(response.data.todos);
+    //             })
+    //             .catch(err => {
+    //                 console.log("error getting userId and todos");
+    //             })
+    //     })
+    //     .catch(err => {
+    //         console.log("error getting accessToken: " + err);
+    //     })
+    // }, [getAccessTokenSilently, user]);
+
     useEffect(() => {
-        getAccessTokenSilently({
-            audience: 'http://localhost:5000/',
-            scope: 'read:user_todos update:user_todos',
-        })
-        .then(accessToken => {
-            console.log("successfully got access token")
-            setAccessToken(accessToken);
-            const headerConfig ={ headers: { Authorization: `Bearer ${accessToken}` } };
-            const reqBody = { email: user.email, userId: user.sub };
-            axios.post('http://localhost:5000/api/users/getUserId&Todos', reqBody, headerConfig)
-                .then(response => {
-                    updateModel(response.data.todos);
-                })
-                .catch(err => {
-                    console.log("error getting userId and todos");
-                })
-        })
-        .catch(err => {
-            console.log("error getting accessToken: " + err);
-        })
-    }, [getAccessTokenSilently, user]);
+        const headerConfig = { headers: { Authorization: `Bearer ${accessToken}` } };
+        const reqBody = { email: user.email, userId: user.sub };
+        axios.post('http://localhost:5000/api/users/getUserId&Todos', reqBody, headerConfig)
+            .then(response => {
+                updateModel(response.data.todos);
+            })
+            .catch(err => {
+                console.log("error getting userId and todos with error: " + err)
+            });
+    }, []);
 
 
     // handle color of todo item based on priority
