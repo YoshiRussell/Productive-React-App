@@ -1,16 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import TodoList from './TodoList';
-import Calender from './Calender';
 
-function Navbar(props) {
+function Navbar() {
     return (
         <nav>
             <ul>
-                <li>
-                    <Link to="/todolist">TODO LIST</Link>
-                    <Link to="/calender">CALENDER</Link>
-                </li>
+                <li> <Link to="/todolist">TODO LIST</Link> </li>
+                <li> <Link to="/calender">CALENDER</Link> </li>
             </ul>
         </nav>
     )

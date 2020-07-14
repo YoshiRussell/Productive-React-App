@@ -29,10 +29,13 @@ function TodoItem(props) {
             <p style={checked ? {textDecoration : "line-through"} : null}>
                 {props.item.text}
             </p>
-            {props.showDelete ? <button className="delete-div" onClick={() => props.handleDelete(props.item._id)}>
-                                    <i className="material-icons">delete</i>
-                                </button> 
-                                : null}
+            {props.showDelete ? (
+                <button className="delete-div" onClick={() => props.handleDelete(props.item._id)}>
+                    <i className="material-icons">delete</i>
+                </button> 
+            ) : (
+                null
+            )}
         </div>
     )
 }

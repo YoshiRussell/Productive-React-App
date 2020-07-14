@@ -3,8 +3,14 @@ import axios from 'axios';
 import TodoItem from "./TodoItem"
 import TodoForm from "./TodoForm"
 import { useAuth0 } from "@auth0/auth0-react"
+import Profile from './Profile'
+import Home from './Home'
+import { Redirect } from 'react-router-dom';
 
 function TodoList(props) {
+
+    console.log("rendering todolist");
+    console.log(props.msg);
 
     // get user details
     const { user, isAuthenticated, getAccessTokenSilently, logout, isLoading } = useAuth0()
@@ -12,44 +18,25 @@ function TodoList(props) {
     // states to keep track of
     const [modelTodoList, updateModel] = useState([]);
     const [showForm, setShowForm] = useState(false);
-    const accessToken = props.token;
+    const [accessToken, setAccessToken] = useState(props.accessToken);
 
-    // get access token
-    // useEffect(() => {
-    //     getAccessTokenSilently({
-    //         audience: 'http://localhost:5000/',
-    //         scope: 'read:user_todos update:user_todos',
-    //     })
-    //     .then(accessToken => {
-    //         console.log("successfully got access token")
-    //         setAccessToken(accessToken);
-    //         const headerConfig ={ headers: { Authorization: `Bearer ${accessToken}` } };
-    //         const reqBody = { email: user.email, userId: user.sub };
-    //         axios.post('http://localhost:5000/api/users/getUserId&Todos', reqBody, headerConfig)
-    //             .then(response => {
-    //                 updateModel(response.data.todos);
-    //             })
-    //             .catch(err => {
-    //                 console.log("error getting userId and todos");
-    //             })
-    //     })
-    //     .catch(err => {
-    //         console.log("error getting accessToken: " + err);
-    //     })
-    // }, [getAccessTokenSilently, user]);
-
+    // get user's todos from database
     useEffect(() => {
+        console.log("inside useEffect in todolist");
+        
         const headerConfig = { headers: { Authorization: `Bearer ${accessToken}` } };
-        const reqBody = { email: user.email, userId: user.sub };
+        const reqBody = { email: props.user.email, userId: props.user.sub };
         axios.post('http://localhost:5000/api/users/getUserId&Todos', reqBody, headerConfig)
             .then(response => {
                 updateModel(response.data.todos);
             })
             .catch(err => {
+                setAccessToken(null);
                 console.log("error getting userId and todos with error: " + err)
-            });
-    }, []);
-
+            });   
+        
+        
+    }, [accessToken, props]);
 
     // handle color of todo item based on priority
     function handleColor(thisPriority) {
@@ -80,10 +67,6 @@ function TodoList(props) {
     function handleDelete(deleteTodoId) {
         (async() => {
             try {
-                // const accessToken = await getAccessTokenSilently({
-                //     audience: 'http://localhost:5000/',
-                //     scope: 'read:user_todos update:user_todos delete:user_todos',
-                // });
                 const headerConfig = {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -102,10 +85,6 @@ function TodoList(props) {
     function submitNewTodo(newText, newPriority) {
         (async() => {
             try {
-                // const accessToken = await getAccessTokenSilently({
-                //     audience: 'http://localhost:5000/',
-                //     scope: 'read:user_todos update:user_todos',
-                // });
                 const headerConfig = {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -145,24 +124,23 @@ function TodoList(props) {
     // render todo list
     return (
         <div>
-            {isAuthenticated ?
-                <div>
-                    <div className="todo-list">
-                        {updatedView.length > 0 ? updatedView : console.log("loading...")}
-                        <TodoForm handleSubmit={submitNewTodo} show={showForm} setShow={setShowForm} />
-                        {showForm ? null : <button className="delete-div" id="add" onClick={() => setShowForm(true)}>ADD NEW TODO</button>}
-                    </div>
-                    <div className="log-out">
-                        <button onClick={() => logout({ returnTo: window.location.origin })}>Log Out</button>
-                    </div>
-                </div> :
+            {user && accessToken && isAuthenticated ? (
+                <div className="todo-list">
+                    {updatedView}
+                    {showForm ? (
+                        <TodoForm handleSubmit={submitNewTodo} setShow={setShowForm}/>
+                    ) : (
+                        <button id="add" onClick={() => setShowForm(true)}>ADD NEW TODO</button>
+                    )}
+                </div> 
+            ) : (
                 <div>
                     {isLoading ? 
                         <h1>Loading...</h1> :
-                        logout({ returnTo: window.location.origin })
+                        <Redirect to="/profile" />
                     }
                 </div>
-            }   
+            )}   
         </div>
         
     )

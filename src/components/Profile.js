@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Navbar from './Navbar';
 import Home from './Home';
 import TodoList from './TodoList';
@@ -8,13 +8,20 @@ import Calender from './Calender';
 
 function Profile() {
 
-    const {user, isAuthenticated, getAccessTokenSilently, isLoading} = useAuth0();
+    console.log("rendering profile");
 
+    // get auth0 variables and functions
+    const {user, isAuthenticated, getAccessTokenSilently, isLoading, logout} = useAuth0();
+
+    // access token [state, state change function]
     const [accessToken, setAccessToken] = useState(null);
-
+    
+    // upon first load to profile request an accesstoken from auth0 api
     useEffect(() => {
+        console.log("inside useeffect in profile");
         getAccessTokenSilently({
             audience: 'http://localhost:5000/',
+            redirect_uri: 'http://localhost:3000/profile',
             scope: 'read:user_todos update:user_todos',
         })
         .then(accessToken => {
@@ -26,27 +33,28 @@ function Profile() {
         })
     }, [getAccessTokenSilently]);
 
-
     return (
         isAuthenticated ? (
             <div>
-                
                 <Router>
                     <Navbar />
                     <h1>Hello {user.name}</h1>
                     <Switch>
                         <Route path="/todolist">
-                            <TodoList token={accessToken} />
+                            <TodoList accessToken={accessToken} user={user} msg={"from profile"}/>
                         </Route>
-                        <Route path="/calender" exact component={Calender} />
+                        <Route path="/calender">
+                            <Calender />
+                        </Route>
                     </Switch>
                 </Router>
+                <button onClick={() => logout({ returnTo: window.location.origin })}>Log Out</button>
             </div>
         ) : (
             isLoading ? (
                 <span> Loading... </span>
             ) : (
-                <Home />
+                <Redirect to="/" />
             )
         )
     )
