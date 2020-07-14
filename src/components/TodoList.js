@@ -3,8 +3,6 @@ import axios from 'axios';
 import TodoItem from "./TodoItem"
 import TodoForm from "./TodoForm"
 import { useAuth0 } from "@auth0/auth0-react"
-import Profile from './Profile'
-import Home from './Home'
 import { Redirect } from 'react-router-dom';
 
 function TodoList(props) {

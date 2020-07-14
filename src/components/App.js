@@ -16,15 +16,10 @@ function App() {
     return (
         <Router>
             <Switch>
-                <Route exact path="/">
-                    {user && isAuthenticated ? (
-                        <Redirect to="/profile" />
-                    ) : (
-                        <Home />
-                    )}
-                </Route>
-                <ProtectedRoute exact path="/profile" component={Profile} />
-                <ProtectedRoute exact path="/todolist" component={TodoList} />
+                <Route path="/" exact component={Home} />
+                <Route path="/profile" component={Profile} />
+                <Redirect from="/todolist" to="/profile" />
+                <Redirect from="/calender" to="/profile" />
             </Switch>
         </Router>
     )
