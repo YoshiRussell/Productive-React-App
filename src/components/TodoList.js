@@ -8,10 +8,9 @@ import { Redirect } from 'react-router-dom';
 function TodoList(props) {
 
     console.log("rendering todolist");
-    console.log(props.msg);
 
     // get user details
-    const { user, isAuthenticated, getAccessTokenSilently, logout, isLoading } = useAuth0()
+    const { user, isAuthenticated, isLoading } = useAuth0()
     
     // states to keep track of
     const [modelTodoList, updateModel] = useState([]);
@@ -21,7 +20,6 @@ function TodoList(props) {
     // get user's todos from database
     useEffect(() => {
         console.log("inside useEffect in todolist");
-        
         const headerConfig = { headers: { Authorization: `Bearer ${accessToken}` } };
         const reqBody = { email: props.user.email, userId: props.user.sub };
         axios.post('http://localhost:5000/api/users/getUserId&Todos', reqBody, headerConfig)

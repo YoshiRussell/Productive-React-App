@@ -9,9 +9,8 @@ import TodoItem from './TodoItem';
 import ProtectedRoute from './ProtectedRoute';
 
 function App() {
+    
     console.log("adding app")
-
-    const { user, isAuthenticated } = useAuth0();
 
     return (
         <Router>

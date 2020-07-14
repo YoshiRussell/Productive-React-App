@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Navbar from './Navbar';
-import Home from './Home';
 import TodoList from './TodoList';
 import Calender from './Calender';
 
@@ -41,10 +40,10 @@ function Profile() {
                     <h1>Hello {user.name}</h1>
                     <Switch>
                         <Route path="/todolist">
-                            <TodoList accessToken={accessToken} user={user} msg={"from profile"}/>
+                            <TodoList accessToken={accessToken} user={user} />
                         </Route>
                         <Route path="/calender">
-                            <Calender />
+                            <Calender accessToken={accessToken} user={user} />
                         </Route>
                     </Switch>
                 </Router>
