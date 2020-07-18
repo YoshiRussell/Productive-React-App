@@ -6,7 +6,7 @@ function Navbar() {
         <nav>
             <ul>
                 <li> <Link to="/todolist">TODO LIST</Link> </li>
-                <li> <Link to="/calender">CALENDER</Link> </li>
+                <li> <Link to="/calendar">CALENDAR</Link> </li>
             </ul>
         </nav>
     )

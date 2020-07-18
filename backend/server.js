@@ -38,13 +38,15 @@ const jwtCheck = jwt({
 });
 
 // add JWT parser to middleware
-app.use(jwtCheck);
+//app.use(jwtCheck);
 
 // routes
 const usersRouter = require('./routes/users');
 const todosRouter = require('./routes/todos');
+const proxyRouter = require('./routes/proxy');
 
-app.use('/api/users', usersRouter);
-app.use('/api/todo', todosRouter);
+app.use('/api/users', jwtCheck, usersRouter);
+app.use('/api/todo', jwtCheck, todosRouter);
+app.use('/api/proxy', proxyRouter);
 
 app.listen(port, () => console.log(`Server is running on port: ${port}`));

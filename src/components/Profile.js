@@ -3,7 +3,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Navbar from './Navbar';
 import TodoList from './TodoList';
-import Calender from './Calender';
+import MyCalendar from './MyCalendar';
+import axios from 'axios';
 
 function Profile() {
 
@@ -21,7 +22,7 @@ function Profile() {
         getAccessTokenSilently({
             audience: 'http://localhost:5000/',
             redirect_uri: 'http://localhost:3000/profile',
-            scope: 'read:user_todos update:user_todos',
+            scope: 'read:user_todos update:user_todos read:users',
         })
         .then(accessToken => {
             console.log("successfully got access token")
@@ -42,8 +43,8 @@ function Profile() {
                         <Route path="/todolist">
                             <TodoList accessToken={accessToken} user={user} />
                         </Route>
-                        <Route path="/calender">
-                            <Calender accessToken={accessToken} user={user} />
+                        <Route path="/calendar">
+                            <MyCalendar accessToken={accessToken} user={user} />
                         </Route>
                     </Switch>
                 </Router>
