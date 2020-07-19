@@ -13,14 +13,16 @@ function App() {
     console.log("adding app")
 
     return (
-        <Router>
-            <Switch>
-                <Route path="/" exact component={Home} />
-                <Route path="/profile" component={Profile} />
-                <Redirect from="/todolist" to="/profile" />
-                <Redirect from="/calender" to="/profile" />
-            </Switch>
-        </Router>
+        <div className="container">
+            <Router>
+                <Switch>
+                    <Route path="/" exact component={Home} />
+                    <Route path="/profile" component={Profile} />
+                    <Redirect from="/todolist" to="/profile" />
+                    <Redirect from="/calendar" to="/profile" />
+                </Switch>
+            </Router>
+        </div>  
     )
 }
 

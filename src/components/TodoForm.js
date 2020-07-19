@@ -8,7 +8,7 @@ function TodoForm(props) {
     const [priority, setPriority] = useState("low")
     
     return (
-        <form onSubmit={e => props.handleSubmit(e, inputTodo, priority)}>
+        <form className="todo-form" onSubmit={e => props.handleSubmit(e, inputTodo, priority)}>
             <input 
                 type="text"
                 name="inputTodo"
@@ -54,7 +54,6 @@ function TodoForm(props) {
                 </label>
             </section>
             <button onClick={e => {e.preventDefault(); props.handleSubmit(inputTodo, priority)}}>ADD</button>
-            <button onClick={e => {e.preventDefault(); props.setShow(false)}}>CANCEL</button>
         </form > 
     )
 }

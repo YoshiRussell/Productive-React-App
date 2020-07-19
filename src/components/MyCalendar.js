@@ -52,7 +52,7 @@ function MyCalendar(props) {
 
     return (
         user && accessToken && isAuthenticated ? (
-            <div>
+            <div className="content-body">
                  <h1>CALENDER PAGE</h1><br />
                 <button onClick={() => handleProxyClick()}>Get data from auth0/api/v2 endpoint</button>
                 <Calendar

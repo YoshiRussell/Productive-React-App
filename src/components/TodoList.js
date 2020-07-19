@@ -14,7 +14,7 @@ function TodoList(props) {
     
     // states to keep track of
     const [modelTodoList, updateModel] = useState([]);
-    const [showForm, setShowForm] = useState(false);
+    //const [showForm, setShowForm] = useState(false);
     const [accessToken, setAccessToken] = useState(props.accessToken);
 
     // get user's todos from database
@@ -79,6 +79,7 @@ function TodoList(props) {
     
     // add new todo 
     function submitNewTodo(newText, newPriority) {
+        if (newText.length === 0) return;
         (async() => {
             try {
                 const headerConfig = {
@@ -101,9 +102,9 @@ function TodoList(props) {
     }
 
     // hide form after creating/canceling new todo item
-    useEffect(() => {
-        setShowForm(false)
-    },[modelTodoList])
+    // useEffect(() => {
+    //     setShowForm(false)
+    // },[modelTodoList])
 
     // create list of todoitem components
     const updatedView = modelTodoList.map(todo => {
@@ -119,12 +120,11 @@ function TodoList(props) {
 
     // render todo list
     return (
-        <div>
+        <div className="content-body">
             {user && accessToken && isAuthenticated ? (
                 <div className="todo-list">
+                    <TodoForm handleSubmit={submitNewTodo} />
                     {updatedView}
-                    {showForm ? <TodoForm handleSubmit={submitNewTodo} setShow={setShowForm}/> 
-                              : <button id="add" onClick={() => setShowForm(true)}>ADD NEW TODO</button>}
                 </div> 
             ) : (
                 <div>

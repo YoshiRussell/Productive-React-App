@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import Navbar from './Navbar';
 import TodoList from './TodoList';
 import MyCalendar from './MyCalendar';
-import axios from 'axios';
 
 function Profile() {
 
@@ -37,8 +36,7 @@ function Profile() {
         isAuthenticated ? (
             <div>
                 <Router>
-                    <Navbar />
-                    <h1>Hello {user.name}</h1>
+                    <Navbar userName={user.name}/>
                     <Switch>
                         <Route path="/todolist">
                             <TodoList accessToken={accessToken} user={user} />
