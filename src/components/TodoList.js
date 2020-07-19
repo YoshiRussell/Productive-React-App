@@ -123,18 +123,13 @@ function TodoList(props) {
             {user && accessToken && isAuthenticated ? (
                 <div className="todo-list">
                     {updatedView}
-                    {showForm ? (
-                        <TodoForm handleSubmit={submitNewTodo} setShow={setShowForm}/>
-                    ) : (
-                        <button id="add" onClick={() => setShowForm(true)}>ADD NEW TODO</button>
-                    )}
+                    {showForm ? <TodoForm handleSubmit={submitNewTodo} setShow={setShowForm}/> 
+                              : <button id="add" onClick={() => setShowForm(true)}>ADD NEW TODO</button>}
                 </div> 
             ) : (
                 <div>
-                    {isLoading ? 
-                        <h1>Loading...</h1> :
-                        <Redirect to="/profile" />
-                    }
+                    {isLoading ? <h1>Loading...</h1> 
+                               : <Redirect to="/profile" />}
                 </div>
             )}   
         </div>

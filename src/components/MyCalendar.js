@@ -17,7 +17,6 @@ function MyCalendar(props) {
     const [accessToken, setAccessToken] = useState(props.accessToken);
 
     function handleClickDay(newText, newPriority) {
-
         const headerConfig = {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -39,7 +38,7 @@ function MyCalendar(props) {
             });
     };
 
-    function handleClick() {
+    function handleProxyClick() {
         axios.post('http://localhost:5000/api/proxy',{
             user: user
         })
@@ -54,30 +53,20 @@ function MyCalendar(props) {
     return (
         user && accessToken && isAuthenticated ? (
             <div>
-                 <span>CALENDER PAGE</span><br />
-                <button onClick={() => handleClick()}>Get data from auth0/api/v2 endpoint</button>
+                 <h1>CALENDER PAGE</h1><br />
+                <button onClick={() => handleProxyClick()}>Get data from auth0/api/v2 endpoint</button>
                 <Calendar
                     value={date}
-                    onChange={date => {
-                        setDate(date)
-                    }}
-                    onClickDay={() => {
-                        toggleShowForm(true)
-                    }}
+                    onChange={date => setDate(date)}
+                    onClickDay={() => toggleShowForm(true)}
                 />
-                { showForm ? (
-                    <TodoForm handleSubmit={handleClickDay} setShow={toggleShowForm} />
-                ) : (
-                    null
-                )}
+                { showForm ? <TodoForm handleSubmit={handleClickDay} setShow={toggleShowForm} />
+                           : null }
             </div>
         ) : (
             <div>
-                {isLoading ? (
-                    <h1>Loading...</h1> 
-                ) : (
-                    <Redirect to="/profile" />
-                )}
+                { isLoading ? <h1>Loading...</h1> 
+                            : <Redirect to="/profile" /> }
             </div>
         )
     )
