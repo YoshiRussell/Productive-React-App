@@ -6,16 +6,9 @@ function TodoItem(props) {
     // states to keep track of
     const [checked, setChecked] = useState(props.item.completed)
 
-    // todo-item background color 
-    function inlineStyle() {
-        return {
-            backgroundColor: `${props.background}`        
-        }
-    }
-
     // render todo-item
     return (
-        <div className="todo-item" style={inlineStyle()}>
+        <div className="todo-item">
             <input
                 id={props.item._id}
                 type="checkbox" 
@@ -25,10 +18,12 @@ function TodoItem(props) {
                     props.handleClick(props.item._id)
                 }}
             />
-            <label htmlFor={props.item.id}></label>
-            <p style={checked ? {textDecoration : "line-through"} : null}>
-                {props.item.text}
-            </p>
+            <label htmlFor={props.item.id}>
+                <p style={checked ? {textDecoration : "line-through"} : null}>
+                    {props.item.text}
+                </p>
+            </label>
+            
             {props.showDelete ? (
                 <button className="delete-div" onClick={() => props.handleDelete(props.item._id)}>
                     <i className="material-icons">delete</i>

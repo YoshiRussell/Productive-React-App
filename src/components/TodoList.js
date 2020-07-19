@@ -34,16 +34,6 @@ function TodoList(props) {
         
     }, [accessToken, props]);
 
-    // handle color of todo item based on priority
-    function handleColor(thisPriority) {
-        const colorMapper = {
-            low : "linen",
-            medium : "Silver",
-            high : "lightSlateGrey"
-        }
-        return colorMapper[thisPriority]
-    }
-
     // update checkboxes
     function checkBoxChange(id) {
         console.log("checkboxchange")
@@ -114,7 +104,6 @@ function TodoList(props) {
             handleClick={checkBoxChange} 
             showDelete={todo.completed} 
             handleDelete={handleDelete}
-            background={handleColor(todo.priority)}
         /> 
     })
 
