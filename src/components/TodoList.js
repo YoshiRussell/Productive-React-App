@@ -68,7 +68,7 @@ function TodoList(props) {
     }
     
     // add new todo 
-    function submitNewTodo(newText, newPriority) {
+    function submitNewTodo(newText) {
         if (newText.length === 0) return;
         (async() => {
             try {
@@ -81,7 +81,6 @@ function TodoList(props) {
                     userId: user.sub,
                     text: newText,
                     completed: false,
-                    priority: newPriority
                 }
                 const response = await axios.post('http://localhost:5000/api/todo/add', newTodoObj, headerConfig);
                 updateModel(prevModel => [...prevModel, response.data]);
@@ -90,11 +89,6 @@ function TodoList(props) {
             }
         })();
     }
-
-    // hide form after creating/canceling new todo item
-    // useEffect(() => {
-    //     setShowForm(false)
-    // },[modelTodoList])
 
     // create list of todoitem components
     const updatedView = modelTodoList.map(todo => {

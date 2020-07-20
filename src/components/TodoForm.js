@@ -5,17 +5,17 @@ function TodoForm(props) {
     console.log("render form")
 
     const [inputTodo, setInputTodo] = useState("")
-    const [priority, setPriority] = useState("low")
     
     return (
-        <form className="todo-form" onSubmit={e => props.handleSubmit(e, inputTodo, priority)}>
+        <form className="todo-form" onSubmit={e => props.handleSubmit(e, inputTodo)}>
             <input 
                 type="text"
                 name="inputTodo"
+                value={inputTodo}
                 placeholder="Add todo here"
                 onChange={e => setInputTodo(e.target.value)}
             />
-            <button className="btn btn-secondary" onClick={e => {e.preventDefault(); props.handleSubmit(inputTodo, priority)}}>ADD</button>
+            <button className="btn btn-secondary" onClick={e => {e.preventDefault(); props.handleSubmit(inputTodo); setInputTodo("");}}>ADD</button>
         </form > 
     )
 }

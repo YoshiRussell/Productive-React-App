@@ -31,15 +31,26 @@ body {
 
 .todo-item {
     position: relative;
-    display: inline-block;
+    display: flex;
     justify-content: flex-start;
-    align-items: center;
+    flex-wrap: wrap;
+    align-items: baseline;
     padding: 30px 20px 0;
     width: 70%;
     border-bottom: 1px solid #000000;
     font-family: Roboto, sans-serif;
-    font-weight: 100;
+    font-weight: 200;
     font-size: 20px;
+    color: #333333;
+}
+
+.todo-item-child {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    padding: 30px 20px 0;
+    width: 100%;
     color: #333333;
 }
 
@@ -49,7 +60,7 @@ body {
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
-    padding: 30px 20px 0;
+    padding: 30px 20px 30px;
     width: 70%;
     border-bottom: 1px solid #000000;
     font-family: Roboto, sans-serif;
@@ -58,23 +69,48 @@ body {
     color: #333333;
 }
 
+.todo-text {
+    position: relative;
+    width: 100%;
+}
+
+.details-content {
+    font-weight: 100;
+    align-items: center;
+    z-index: 100;
+    background-color: whitesmoke;
+    position: relative;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.add-details-content {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.details-button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
 .todo-form input[type=text] {
     width: 90%;
 }
 
 input[type=text] {
-    width: 100%;
+    width: 90%;
     padding: 12px 20px;
     margin: 8px 0;
-    box-sizing: border-box;
+    box-sizing: border-box; 
 }
 
 input[type=checkbox] {
     padding: 12px 20px;
     margin-right: 10px;
     vertical-align: middle;
-    width: 20px;
-    height: 20px;
 }
 
 input[type=checkbox]:focus {
@@ -83,16 +119,14 @@ input[type=checkbox]:focus {
 
 .delete-div {
     position: absolute;
-    top: 1ex;
-    right: 1ex;
+    top: 0;
+    right: 0;
     border: none;
     background: #2F4F4F;
     color: #ffffff !important;
     font-weight: 100;
-    padding: 10px;
     text-transform: uppercase;
     border-radius: 6px;
-    display: inline-block;
     transition: all 0.3s ease 0s;
 }
 
