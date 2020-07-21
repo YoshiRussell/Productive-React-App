@@ -28,7 +28,7 @@ function Navbar(props) {
     return (
         <nav>
             <ul className="nav nav-tabs nav-fill">
-                <li className="nav-item"><Link className="nav-link disabled" tabindex="-1" aria-disabled="true">{props.userName}</Link></li>
+                <li className="nav-item"><a className="nav-link disabled" tabIndex="-1" aria-disabled="true">{props.userName}</a></li>
                 {linkMapView}
             </ul>
         </nav>

@@ -30,8 +30,6 @@ function TodoList(props) {
                 setAccessToken(null);
                 console.log("error getting userId and todos with error: " + err)
             });   
-        
-        
     }, [accessToken, props]);
 
     // update checkboxes
@@ -67,6 +65,33 @@ function TodoList(props) {
         })();
     }
     
+    // update a todo in cases where we add more details
+    function updateTodoDetails(todoId, details) {
+        console.log("Inside handle update with todoId: " + todoId + ", details: " + details);
+        (async() => {
+            try {
+                const headerConfig = {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
+                const updateModelTodoList = modelTodoList.map(todo => {
+                    if (todo._id === todoId) {
+                        return {
+                            ...todo,
+                            details: details
+                        }
+                    } 
+                    return todo;
+                });
+                updateModel(updateModelTodoList);
+                axios.post(`http://localhost:5000/api/todo/update/${todoId}`, { details: details, userId: user.sub }, headerConfig)
+            } catch(e) {
+                console.log("there was an err updating details ", e);
+            }
+        })();
+    }
+
     // add new todo 
     function submitNewTodo(newText) {
         if (newText.length === 0) return;
@@ -98,6 +123,7 @@ function TodoList(props) {
             handleClick={checkBoxChange} 
             showDelete={todo.completed} 
             handleDelete={handleDelete}
+            handleUpdate={updateTodoDetails}
         /> 
     })
 

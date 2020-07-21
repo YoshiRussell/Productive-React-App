@@ -36,10 +36,10 @@ function TodoItem(props) {
                     null
                 )}
                 <div className="details-button">
-                    <Link onClick={() => setShowDetails(!showDetails)}>{showDetails ? "Hide" : "Show"} Details</Link>
+                    <a onClick={() => setShowDetails(!showDetails)}>{showDetails ? "Hide" : "Show"} Details</a>
                 </div>
             </div>
-            {showDetails ? <Details setShowDetails={setShowDetails}/> : null }
+            {showDetails ? <Details id={props.item._id} details={props.item.details} setShowDetails={setShowDetails} updateDetails={props.handleUpdate}/> : null }
         </div>
     )
 }

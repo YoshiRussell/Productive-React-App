@@ -8,12 +8,12 @@ const { Todo, User } = require('../models/models');
 // @ url: http://localhost:3000/api/todo/add
 // @ require: auth0 accessToken
 router.route('/add').post((req, res) => {
-    const { userId, text, completed, priority } = req.body;
+    const { userId, text, completed, details} = req.body;
   
     const newTodo = new Todo({
         text,
         completed,
-        priority,
+        details,
     });
 
     User.findOneAndUpdate({ userId }, {
@@ -41,6 +41,28 @@ router.route('/delete/:id').post((req, res) => {
         if(error) {console.log(error);}
         else {console.log(success)}
     });
+});
+
+router.route('/update/:id').post((req, res) => {
+    const todoId = req.params.id;
+    const { userId, details } = req.body;
+
+    // User.updateOne({ 'userId': userId, "todos._id": todoId }, {
+    //     $set: { 'todos.$.details': details }
+    // }, (error, success) => {
+    //     if (error) console.log("Error updating details element: " + error);
+    //     else console.log(success);
+    // });
+
+    User.findOne({ userId })
+        .then(doc => {
+            var todo = doc.todos.id(todoId);
+            todo.details = details;
+            doc.save();
+        })
+        .catch(err => {
+            console.log("Error updating details element: " + err);
+        });
 });
 
 module.exports = router;
