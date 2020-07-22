@@ -1,1 +1,1 @@
-![Diagram] (/img/TodoAppDiagram.png)
+<img src="/img/TodoAppDiagram.png" alt="My diagram" />
