@@ -1,1 +1,1 @@
-![Diagram] (/Todo\ App\ Diagram.png)
+![Diagram] (./TodoAppDiagram.png)
