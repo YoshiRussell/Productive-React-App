@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 function Details(props) {
 
     const [inputDetail, setInputDetail] = useState("");
     const [detailList, setDetailList] = useState(props.details);
 
+    // update list with new detail inputted
     function handleSubmit(input) {
-        console.log("detail list before: " + detailList);
         setDetailList(prevList => [...prevList, input]);
         setInputDetail("");
     }
 
+    // propogate up updated details list to be added to database
     useEffect(() => {
-        console.log("detail list after: " + detailList);
         props.updateDetails(props.id, detailList);
     }, [detailList])
 

@@ -43,16 +43,12 @@ router.route('/delete/:id').post((req, res) => {
     });
 });
 
+// @ desc: update user todo details via id
+// @ url: http://localhost:3000/api/todo/update/{id}
+// @ require: auth0 accessToken
 router.route('/update/:id').post((req, res) => {
     const todoId = req.params.id;
     const { userId, details } = req.body;
-
-    // User.updateOne({ 'userId': userId, "todos._id": todoId }, {
-    //     $set: { 'todos.$.details': details }
-    // }, (error, success) => {
-    //     if (error) console.log("Error updating details element: " + error);
-    //     else console.log(success);
-    // });
 
     User.findOne({ userId })
         .then(doc => {
