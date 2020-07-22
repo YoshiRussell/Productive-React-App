@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const request = require('request');
+require('dotenv').config();
 
 router.route('/').post((req, res) => {
 
@@ -9,7 +10,7 @@ router.route('/').post((req, res) => {
         method: 'POST',
         url: 'https://dev-lkenkzaj.us.auth0.com/oauth/token',
         headers: { 'content-type': 'application/json' },
-        body: '{"client_id":"XaGNysAoOHYNaoSX5G1NSwkORI02UmS0","client_secret":"ubYbzY1M5M4SNH0MLsasgln4E-Tdk1HqWBn0PsCR1aNRFv22T-QMeoIX9ZamWc53","audience":"https://dev-lkenkzaj.us.auth0.com/api/v2/","grant_type":"client_credentials"}',
+        body: `{"client_id":${process.env.AUTH0_CLIENT_ID},"client_secret":${process.env.AUTH0_CLIENT_SECRET},"audience":"https://dev-lkenkzaj.us.auth0.com/api/v2/","grant_type":"client_credentials"}`,
     }, (error, response, body) => {
         if (error) {
             console.log("Error request accesstoken");
