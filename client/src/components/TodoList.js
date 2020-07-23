@@ -7,14 +7,12 @@ import { Redirect } from 'react-router-dom';
 
 function TodoList(props) {
 
-    console.log("rendering todolist");
+    console.log("rendering todolist component");
 
     // get user details
     const { user, isAuthenticated, isLoading } = useAuth0()
     
-    // states to keep track of
     const [modelTodoList, updateModel] = useState([]);
-    //const [showForm, setShowForm] = useState(false);
     const [accessToken, setAccessToken] = useState(props.accessToken);
 
     // get user's todos from database

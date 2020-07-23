@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 // Template for each todo list item
 function TodoItem(props) {
 
-    // states to keep track of
+    console.log("render todo item component");
+
     const [checked, setChecked] = useState(props.item.completed)
     const [showDetails, setShowDetails] = useState(false);
 

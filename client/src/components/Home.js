@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 function Home() {
 
-    console.log("rendering home");
+    console.log("rendering home component");
 
     const { loginWithRedirect, isLoading } = useAuth0();
 

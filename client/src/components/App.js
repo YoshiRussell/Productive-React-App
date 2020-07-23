@@ -6,7 +6,7 @@ import '../styles/App.css';
 
 function App() {
     
-    console.log("adding app")
+    console.log("render app component");
 
     return (
         <div className="container">

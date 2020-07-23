@@ -8,7 +8,7 @@ import 'react-calendar/dist/Calendar.css';
 
 function MyCalendar(props) {
 
-    console.log("rendering calendar");
+    console.log("rendering calendar component");
 
     const { user, isAuthenticated, isLoading } = useAuth0();
     

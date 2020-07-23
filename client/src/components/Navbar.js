@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Navbar(props) {
 
-    console.log('render navbar');
+    console.log("render nav-bar component");
 
     const [linkMap, updateLinkMap] = useState([{linkId: "todo-tab", linkClassName: "nav-link", to: "/todolist", caption: "TODO LIST"}, 
                                                {linkId: "calendar-tab", linkClassName: "nav-link", to: "/calendar", caption: "CALENDAR"}]);

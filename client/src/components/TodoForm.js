@@ -2,7 +2,7 @@ import React, {useState} from "react"
 
 function TodoForm(props) {
     
-    console.log("render form")
+    console.log("render todo form component")
 
     const [inputTodo, setInputTodo] = useState("")
     

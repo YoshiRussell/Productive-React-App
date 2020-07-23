@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 function Details(props) {
 
+    console.log("render detail component");
+
     const [inputDetail, setInputDetail] = useState("");
     const [detailList, setDetailList] = useState(props.details);
 
@@ -9,12 +11,8 @@ function Details(props) {
     function handleSubmit(input) {
         setDetailList(prevList => [...prevList, input]);
         setInputDetail("");
-    }
-
-    // propogate up updated details list to be added to database
-    useEffect(() => {
         props.updateDetails(props.id, detailList);
-    }, [detailList])
+    }
 
     return (
         <div className="details-content">

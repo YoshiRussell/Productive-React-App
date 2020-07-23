@@ -37,9 +37,6 @@ const jwtCheck = jwt({
   algorithms: ['RS256']
 });
 
-// add JWT parser to middleware
-//app.use(jwtCheck);
-
 // routes
 const usersRouter = require('./routes/users');
 const todosRouter = require('./routes/todos');

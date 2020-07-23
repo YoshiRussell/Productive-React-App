@@ -7,12 +7,11 @@ import MyCalendar from './MyCalendar';
 
 function Profile() {
 
-    console.log("rendering profile");
+    console.log("rendering profile component");
 
     // get auth0 variables and functions
     const {user, isAuthenticated, getAccessTokenSilently, isLoading, logout} = useAuth0();
 
-    // access token [state, state change function]
     const [accessToken, setAccessToken] = useState(null);
     
     // upon first load to profile request an accesstoken from auth0 api
