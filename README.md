@@ -1,1 +1,1 @@
-<img src="/img/TodoAppDiagram.png" alt="My diagram" />
+<img src="client/img/TodoAppDiagram.png" alt="My diagram" />
